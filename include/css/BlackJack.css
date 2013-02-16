@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+#graph {
+	float: left ;
+}
+#graph_record {
+	width: 800px;
+	height: 300px;
+}
+
+#graph_history {
+	width: 800px;
+	height: 300px;
+}
+
+#log {
+	float: left;
+}
+
+#clear {
+	clear: both;
+}
+.bottom_info_box {
+	float: left;
+}
+	
