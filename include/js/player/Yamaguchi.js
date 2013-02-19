@@ -1,4 +1,4 @@
-var Yamaguchi = function Yamamoto() {
+var Yamaguchi = function Yamaguchi() {
     // 親のコンストラクタを呼び出す
     Player.apply( this, arguments );
 

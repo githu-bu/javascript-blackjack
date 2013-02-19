@@ -1,4 +1,4 @@
-var Koga = function Yamamoto2() {
+var Koga = function Koga() {
     // 親のコンストラクタを呼び出す
     Player.apply( this, arguments );
 
