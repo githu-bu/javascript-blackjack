@@ -15,9 +15,7 @@ var Koga = function Koga() {
 		// fake_sumはカードの数値をそのまま足している。
 		// 絵柄カード(J,Q,K)は10、1は1か11としてカウントしなければ・・・
 		for ( var ii = 0; ii < tehuda.length; ii++) {
-			if( tehuda[ii]._number ) {
-				fake_sum += tehuda[ii]._number ;
-			}
+			fake_sum += tehuda[ii]._number ;
 		}
 		// 誤った計算を元に15以下だったらヒット
 		if( fake_sum <= 15 ) {
