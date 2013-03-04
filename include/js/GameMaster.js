@@ -35,7 +35,7 @@ function GameMaster() {
 		// プレイヤー毎の手札・実績を初期化
 		for ( var ii = 0; ii < this._players.length; ii++) {
 			this._players_card.push(new CardList()) ;
-			this._play_data_list.push(new PlayData()) ;
+			this._play_data_list.push(new PlayData(this._players.length)) ;
 			this._html_players_log.push(null) ;
 			
 			// プレイヤー名をHTMLに設定
@@ -52,12 +52,18 @@ function GameMaster() {
 		var record_opt ;
 
 		var rec = new Array();
-		rec[0] = ['',	'勝利点', '引分点'] ;
+		var head = new Array() ;
+		head.push('') ;
+		for ( var ii = 1; ii < this._players.length; ii++) {
+			head.push(ii + "位") ;
+		}
+		rec.push(head) ;
 		for ( var ii = 0; ii < this._players.length; ii++) {
 			var row = new Array() ;
 			row.push(this._players[ii]._author) ;
-			row.push(this._play_data_list[ii]._win_point) ;
-			row.push(this._play_data_list[ii]._draw_point) ;
+			for ( var jj = 1; jj < this._play_data_list[ii]._rank_cnt.length ; jj++) {
+				row.push(this._play_data_list[ii].getRankPoint(jj)) ;
+			}
 			rec.push(row) ;
 		}
 		record_data = google.visualization.arrayToDataTable(rec);
@@ -138,7 +144,7 @@ function GameMaster() {
 		for ( var ii = 0; ii < this._players.length; ii++) {
 			var row = new Array() ;
 			row.push(this._players[ii]._author) ;
-			row.push(this._play_data_list[ii]._win_point + this._play_data_list[ii]._draw_point) ;
+			row.push(this._play_data_list[ii].getRankPointAll()) ;
 			table.push(row) ;
 
 		}
@@ -218,52 +224,53 @@ function GameMaster() {
 	}
 
 	this.playOneAfter = function() {
-		var sum_number ;
-		var max_number ;
-		var winner_cnt ;
-		var point ;
+		var sum_numbers ;
 		var log ;
 		
 		////////////////////////////////////
 		// 1ゲーム終了後処理
 		////////////////////////////////////
-		max_number = BURST ;
-		winner_cnt = 0 ;
+		ranking = Array() ;
 		for ( var ii = 0; ii < this._players.length; ii++) {
-			sum_number = this._players_card[ii].getSumNumber() ;
-			// 最高得点をmax_numberに、勝者数をwinner_cntに取得
-			if( sum_number > max_number ) {
-				max_number = sum_number ;
-				winner_cnt = 1 ;
-			} else if( sum_number == max_number ) {
-				winner_cnt++ ;
-			}
-			// 成績を記録する
-			this._play_data_list[ii].addResult(sum_number) ;
-			// デバッグ用にプレイヤー毎の手札をHTMLに出力
-			this._html_players_log[ii].value = '合計点[' + sum_number + ']\n' + this._players_card[ii].toString() ;
+			ranking.push(1) ;
+		}
+		sum_numbers = Array() ;
+		for ( var ii = 0; ii < this._players.length; ii++) {
+			sum_numbers.push(this._players_card[ii].getSumNumber()) ;
 		}
 
-		log = "======= 【" + this._play_round + "ゲーム目　開始】 ========\n"
-		for ( var ii = 0; ii < this._players_card.length; ii++) {
-			if( max_number <= this._players_card[ii].getSumNumber() ) {
-				// 勝者が１人なら勝利点に加算
-				if( winner_cnt == 1 ) {
-					this._play_data_list[ii]._win_point += this._players_card.length ;
-					log += this._players[ii]._author + "さんの勝ち！！！！！\n" ;
+		for ( var ii = 0; ii < this._players.length; ii++) {
+			for ( var jj = 0; jj < this._players.length; jj++) {
+				if( ii === jj ) {
+					continue ;
 				}
-				// 勝者が複数なら引分点に加算
-				else if( winner_cnt > 1 ) {
-					this._play_data_list[ii]._draw_point += (this._players_card.length - winner_cnt) ;
-					log += this._players[ii]._author + "さん、引分で勝利です・・・\n" ;
+				if( sum_numbers[ii] < sum_numbers[jj] ) {
+					ranking[ii]++ ;
 				}
 			}
 
+			// 成績を記録する
+			this._play_data_list[ii].addResult(sum_numbers[ii]) ;
+			// 成績を記録する
+			this._play_data_list[ii]._rank_cnt[ranking[ii] - 1]++ ;
+			// デバッグ用にプレイヤー毎の手札をHTMLに出力
+			this._html_players_log[ii].value = '合計点[' + sum_numbers[ii] + ']\n' + this._players_card[ii].toString() ;
+		}
+
+		for ( var ii = 0; ii < this._players_card.length; ii++) {
 			// 手札を捨て札に戻す
 			this._players_card[ii].move(0, 52, this._sutehuda) ;
 		}
 		
-		log += "最高点は【" + max_number + "】でした。\n" ;
+		log = "======= 【" + this._play_round + "ゲーム目　開始】 ========\n"
+		for ( var ii = 0; ii < ranking.length; ii++) {
+			var sum_number_str = sum_numbers[ii] ;
+			if( sum_numbers[ii] === BURST ) {
+				sum_number_str = "バースト" ;
+			}
+			log += this._players[ii]._author + "さん、"+ ranking[ii] + "位です。手札の合計値[" + sum_number_str + "]。\n" ;
+		}
+		
 		this._html_history.value = log + this._html_history.value.substr(0,3000) ;
 	}	
 	

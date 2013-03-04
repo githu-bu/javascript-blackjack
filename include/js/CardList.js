@@ -25,8 +25,8 @@ function CardList() {
 	}
 	
 	this.getSumNumber = function() {
-		// ƒo[ƒXƒg”»’è‚µ‚½Œ‹‰Ê‚ğ•Ô‚·B
-		// ƒo[ƒXƒg‚µ‚Ä‚¢‚È‚¢ê‡‚Ínum‚ğ‚»‚Ì‚Ü‚Ü•Ô‚·B
+		// ãƒãƒ¼ã‚¹ãƒˆåˆ¤å®šã—ãŸçµæœã‚’è¿”ã™ã€‚
+		// ãƒãƒ¼ã‚¹ãƒˆã—ã¦ã„ãªã„å ´åˆã¯numã‚’ãã®ã¾ã¾è¿”ã™ã€‚
 		function getBurstJudgResult(num) {
 			if( num <= 21 ) {
 				return(num) ;
@@ -38,7 +38,7 @@ function CardList() {
 		var sum = 0 ;
 		for ( var ii = 0; ii < this._list.length; ii++) {
 			switch (this._list[ii]._number){
-			case 1: // ACE‚ÍŒã‚ÅŒvZ‚·‚é
+			case 1: // ACEã¯å¾Œã§è¨ˆç®—ã™ã‚‹
 				ace_num ++ ;
 				break ;
 			case 2: 
@@ -57,19 +57,19 @@ function CardList() {
 			case 13:
 				sum += 10 ;
 				break ;
-			default: // ‘z’èŠOEEE
-				throw new Error('ƒvƒƒOƒ‰ƒ€ƒ~ƒX‚Ì‚æ‚¤‚Å‚·B‘z’èŠO‚ÌƒJ[ƒh[' + this._list[ii].toString() + ']‚Å‚·B') ;
+			default: // æƒ³å®šå¤–ãƒ»ãƒ»ãƒ»
+				throw new Error('ãƒ—ãƒ­ã‚°ãƒ©ãƒ ãƒŸã‚¹ã®ã‚ˆã†ã§ã™ã€‚æƒ³å®šå¤–ã®ã‚«ãƒ¼ãƒ‰[' + this._list[ii].toString() + ']ã§ã™ã€‚') ;
 			}		
 		}
-		// ACE‚ª‚È‚¢‚È‚ç‚±‚±‚ÅI—¹
+		// ACEãŒãªã„ãªã‚‰ã“ã“ã§çµ‚äº†
 		if( ace_num <= 0 ) {
 			return(getBurstJudgResult(sum)) ;
 		}
 			
-		// 2–‡ˆÈãACE‚ª‚ ‚Á‚½‚ç2–‡–ÚˆÈ~‚Í1“_‚ÆƒJƒEƒ“ƒg(11‚ª‚Q‚Â‚ ‚Á‚½‚çƒo[ƒXƒg‚È‚Ì‚Å)
+		// 2æšä»¥ä¸ŠACEãŒã‚ã£ãŸã‚‰2æšç›®ä»¥é™ã¯1ç‚¹ã¨ã‚«ã‚¦ãƒ³ãƒˆ(11ãŒï¼’ã¤ã‚ã£ãŸã‚‰ãƒãƒ¼ã‚¹ãƒˆãªã®ã§)
 		sum += (ace_num - 1) ;
 			
-		// ACE‚ğ1‚Æ‚·‚é‚©11‚Æ‚·‚é‚©”»’è‚µ‚Äsum‚É‘«‚·B
+		// ACEã‚’1ã¨ã™ã‚‹ã‹11ã¨ã™ã‚‹ã‹åˆ¤å®šã—ã¦sumã«è¶³ã™ã€‚
 		if( getBurstJudgResult(sum + 11) <= BURST ) {
 			sum += 1 ;
 		}
