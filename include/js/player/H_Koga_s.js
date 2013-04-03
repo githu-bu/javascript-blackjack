@@ -3,7 +3,7 @@ var H_koga_s = function H_koga_s() {
     Player.apply( this, arguments );
 
 	// 作者
-	this._author = 'リアル古賀（ひ）S' ;
+	this._author = 'リアル古賀' ;
 
 	// ヒットするか判定。
 	// @param tehuda 		手札(Cardの配列)。

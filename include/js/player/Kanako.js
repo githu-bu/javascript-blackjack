@@ -1,7 +1,7 @@
 var Kanako = function Kanako() {
     Player.apply(this, arguments)
 	// 作者
-	this._author = '西山 かな子' ; 
+	this._author = 'かな子' ; 
     
     // ヒットするか判定。 
     // @param tehuda 		手札(CardList)。
