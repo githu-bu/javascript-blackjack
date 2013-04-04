@@ -26,13 +26,14 @@ function GameMaster() {
 
 		this._yamahuda.init() ;
 		// ここに参加プレイヤーを設定して下さい。
-//		this._players.push(new Nogi()) ;
+		this._players.push(new Nogi()) ;
 		this._players.push(new Yamamoto()) ;
 		this._players.push(new H_koga_s()) ;
 		this._players.push(new kitamura()) ;
 		this._players.push(new Mamiya()) ;
 		this._players.push(new Kanako()) ;
 		this._players.push(new Yamaguchi()) ;
+		this._players.push(new Suzuki()) ;
 
 		// プレイヤー毎の手札・実績を初期化
 		for ( var ii = 0; ii < this._players.length; ii++) {
