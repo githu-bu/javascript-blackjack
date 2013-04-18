@@ -34,6 +34,8 @@ function GameMaster() {
 		this._players.push(new Kanako()) ;
 		this._players.push(new Yamaguchi()) ;
 		this._players.push(new Suzuki()) ;
+		this._players.push(new Kishi()) ;
+		this._players.push(new Furumoto()) ;
 
 		// プレイヤー毎の手札・実績を初期化
 		for ( var ii = 0; ii < this._players.length; ii++) {
